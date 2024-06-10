@@ -3,7 +3,7 @@ name: besu
 on:
   workflow_dispatch:
     inputs:
-      version:
+      besu-tag:
         type: string
         default: 'latest'
 
@@ -21,6 +21,7 @@ jobs:
             -p 30301:30301/tcp \
             -p 30301:30301/udp \
             -p 8545:8545 \
+            hyperledger/besu:${{ inputs.besu-tag }} \
             --rpc-http-enabled
       
       - name: Run Tests
