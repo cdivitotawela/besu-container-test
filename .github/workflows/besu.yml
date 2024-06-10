@@ -1,0 +1,34 @@
+name: besu
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        default: 'latest'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start Container
+        run: |
+          docker run -d \
+            --name besu \
+            -p 30301:30301/tcp \
+            -p 30301:30301/udp \
+            -p 8545:8545 \
+            --rpc-http-enabled
+      
+      - name: Run Tests
+        run: |
+          docker ps
+          sleep 60
+
+      - name: Stop Container
+        run: docker stop besu
+
+
